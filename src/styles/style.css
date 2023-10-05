@@ -1,0 +1,19 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.header {
+  background-color: #AECEFB;
+  height: 4em;
+}
+.header .header-logo {
+  height: 2em;
+}
+.header .header-logo .header-text {
+  text-decoration: dotted;
+  font-weight: 600;
+  margin: auto 0;
+  padding: 0 10px;
+}
+
+/*# sourceMappingURL=style.css.map */

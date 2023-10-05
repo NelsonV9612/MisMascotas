@@ -1,0 +1,17 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+$colorPpal:#AECEFB;
+.header{
+    background-color: $colorPpal;
+    height: 4em;
+    .header-logo{
+        height: 2em;
+        .header-text{
+            text-decoration: dotted;
+            font-weight: 600;
+            margin: auto 0;
+            padding: 0 10px;
+        }
+    }
+}

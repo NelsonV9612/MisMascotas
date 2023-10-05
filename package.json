@@ -1,0 +1,11 @@
+{
+  "name": "mascotas",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\">Programa de Reporte y Búsqueda de Perros Perdidos</h1>\r <p>Este es un programa en JavaScript diseñado para ayudar a las personas a reportar perros perdidos y buscar perros perdidos en su área. El programa utiliza ventanas emergentes de prompt para recopilar información sobre perros perdidos y ofrece la posibilidad de buscar perros perdidos por raza.<p/>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nelson Valdes",
+  "license": "ISC"
+}
