@@ -5,6 +5,7 @@ $colorPpal:#AECEFB;
 .header{
     background-color: $colorPpal;
     height: 4em;
+    
     .header-logo{
         height: 2em;
         .header-text{
@@ -14,4 +15,88 @@ $colorPpal:#AECEFB;
             padding: 0 10px;
         }
     }
+}
+.main{
+    h1{
+        font-size: 1.5em;
+    }
+    .welcome{
+        .welcome-message{
+            line-height: 25px;
+        }
+    }
+    .containerDog{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        .container-input{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: .3em 0;
+            width: 100%;
+            &:nth-child(3){
+                margin-bottom: 1em;
+            }
+            .input{
+                width: 100%;
+                border-radius: 5px;
+                border: none;
+                border-bottom:2px solid $colorPpal;
+                &:focus{
+                    outline: none;
+                }
+            }
+            .container-input--photo{
+                margin-top: 5%;
+                &::before{
+                    content: '';
+                    position: absolute;
+                    top: 5px;
+                    width: 0;
+                    height: 0;
+                    border-left: 20px solid transparent;
+                    border-right: 20px solid transparent;
+                    border-top: 40px solid $colorPpal;
+                }
+            }
+        }
+        .button{
+            width: 50%;
+            border-radius: 5px;
+            padding: .5rem 0;
+            background-color: $colorPpal;
+            border: #000000;
+        }
+    }
+}
+.footer{
+    margin-top: 1rem;
+    height: 15vh;
+    background-color: $colorPpal;
+    position: relative;
+    .footer-container{
+        display: flex;
+        height: 100%;
+        justify-content: space-around;
+       .footer-contact{
+            &::after{
+                content: "";
+                display: block;
+                height: 1px;
+                margin: 3px auto;
+                width: 60%;
+                background-color: #a09d9d;
+            }
+            h3{
+                text-decoration: underline;
+
+            }
+        }
+        .blockquote-footer{
+            margin: 0;
+        }
+    }
+
 }
