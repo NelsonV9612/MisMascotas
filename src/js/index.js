@@ -1,27 +1,15 @@
+let perroPerdido=[];
 class Perro {
-  constructor(color, lugar, tamanio, raza, estado) {
+  constructor(color, lugar, tamanio, raza) {
     this.color = color;
     this.lugar = lugar;
     this.tamanio = tamanio;
     this.raza = raza;
-    this.estado = estado;
+    this.estado = 'Perdido';
   }
 
   cambiarEstado(nuevoEstado) {
     this.estado = nuevoEstado;
-  }
-
-  statusPerro(perros) {
-    for (let i = 0; i < perros.length; i++) {
-      const perro = perros[i];
-      console.log(`
-        color: ${perro.color}
-        Lugar: ${perro.lugar}
-        Tamaño: ${perro.tamanio}
-        Raza: ${perro.raza}
-        Estado: ${perro.estado}
-      `);
-    }
   }
 }
 //  crea el contenedor, el span y el tipo de input enviados por parametro
@@ -61,20 +49,38 @@ const validateInput = (raza, color, tamanio, lugar) => {
     alert('No pueden haber valores vacios');
     return undefined;
   } else {
-    return new Perro(color.toLowerCase(), lugar.toLowerCase(), tamanio.toLowerCase(), raza.toLowerCase(), 'Perdido');
+    return new Perro(color.toLowerCase(), lugar.toLowerCase(), tamanio.toLowerCase(), raza.toLowerCase());
   }
 };
-const validateInputSearch=((search)=>{
-  if (search.value.trim() === "") {
-    alert('No puede haber valores vacíos');
-    return false; // Indicamos que la validación ha fallado
+//valida los inputs de busqueda
+const validateInputSearch=((input)=>{
+  if (input=="") {
+    alert('No puede haber valores vacíos')
   }
-  return true;
-
 });
 
+const showDog=((dog)=>{
+  const infoDog=document.createElement('article');
+  infoDog.classList='showDog-article'
+  infoDog.innerHTML=`
+  <h3>${dog.raza}</h3>
+  <p>${dog.color}</p>
+  <p>${dog.tamanio}</p>
+  <p>${dog.lugar}</p>
+  <p>${dog.estado}</p>
+  `;
+  return infoDog;
+});
+
+//busqueda
 const searchDogButton = document.querySelector('#searchButton');
 const searchDogContainer = document.querySelector('.searchDog');
+//reporte
+const reportDogButton = document.querySelector('#reportButton');
+const reportDogContainer = document.querySelector('.reportDog');
+//muestra
+const showDogButton = document.querySelector('#showButton');
+const showDogContainer=document.querySelector('.showDog')
 //evento para buscar un perro
 searchDogButton.addEventListener('click', () => {
   const inputList=['Raza', 'Color', 'Tamaño', 'Lugar'];
@@ -86,27 +92,31 @@ searchDogButton.addEventListener('click', () => {
   const submitButton = button('button','Buscar');
 
   const existingData = localStorage.getItem('perro');
-  const perroPerdido = existingData ? JSON.parse(existingData) : [];
+  const lost = existingData ? JSON.parse(existingData) : undefined;
+  console.log(perroPerdido);
   form.addEventListener('submit', (e) =>{
     e.preventDefault();
-    const raza= document.querySelector('.containerDog .input.raza');
-    const color= document.querySelector('.containerDog .input.color');
-    const tamanio= document.querySelector('.containerDog .input.tamaño');
-    const lugar= document.querySelector('.containerDog .input.lugar');
-    const razaValue=raza? raza.value : '';
-    const colorValue=color? color.value : '';
-    const tamanioValue=tamanio? tamanio.value : '';
-    const lugarValue=lugar? lugar.value : '';
-
+    const raza= document.querySelector('.containerDog .input.raza').value;
+    const color= document.querySelector('.containerDog .input.color').value;
+    const tamanio= document.querySelector('.containerDog .input.tamaño').value;
+    const lugar= document.querySelector('.containerDog .input.lugar').value;
+    let perroEncontrado = lost.find(perro =>
+      perro.color === color &&
+      perro.raza === raza &&
+      perro.lugar === lugar &&
+      perro.tamanio===tamanio &&
+      perro.estado==='Perdido'
+    );
+    
+    console.log(typeof perroEncontrado);
+    raza.value="";
+    color.value="";
+    tamanio.value="";
+    lugar.value="";
   });
   form.append(...inputs, submitButton);
   searchDogContainer.appendChild(form);
 });
-
-let perroPerdido=[];
-
-const reportDogButton = document.querySelector('#reportButton');
-const reportDogContainer = document.querySelector('.reportDog');
 
 reportDogButton.addEventListener('click', () => {
   reportDogContainer.innerHTML="";
@@ -153,3 +163,11 @@ reportDogButton.addEventListener('click', () => {
   formulario.append(...inputs, submitButton);
   reportDogContainer.appendChild(formulario);
 });
+
+showDogButton.addEventListener('click',()=>{
+  searchDogContainer.innerHTML = "";
+  const existingData = localStorage.getItem('perro');
+  const lost = existingData ? JSON.parse(existingData) : [];
+  const lostArticles = lost.map(dog => showDog(dog));  
+  showDogContainer.append(...lostArticles);
+})

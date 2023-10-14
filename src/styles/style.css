@@ -22,35 +22,35 @@ body {
 .main .welcome .welcome-message {
   line-height: 25px;
 }
-.main .containerDog {
+.main .accordion-body .containerDog {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 }
-.main .containerDog .container-input {
+.main .accordion-body .containerDog .container-input {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0.3em 0;
   width: 100%;
 }
-.main .containerDog .container-input:nth-child(3) {
+.main .accordion-body .containerDog .container-input:nth-child(3) {
   margin-bottom: 1em;
 }
-.main .containerDog .container-input .input {
+.main .accordion-body .containerDog .container-input .input {
   width: 100%;
   border-radius: 5px;
   border: none;
   border-bottom: 2px solid #AECEFB;
 }
-.main .containerDog .container-input .input:focus {
+.main .accordion-body .containerDog .container-input .input:focus {
   outline: none;
 }
-.main .containerDog .container-input .container-input--photo {
+.main .accordion-body .containerDog .container-input .container-input--photo {
   margin-top: 5%;
 }
-.main .containerDog .container-input .container-input--photo::before {
+.main .accordion-body .containerDog .container-input .container-input--photo::before {
   content: "";
   position: absolute;
   top: 5px;
@@ -60,12 +60,26 @@ body {
   border-right: 20px solid transparent;
   border-top: 40px solid #AECEFB;
 }
-.main .containerDog .button {
+.main .accordion-body .containerDog .button {
   width: 50%;
   border-radius: 5px;
   padding: 0.5rem 0;
   background-color: #AECEFB;
   border: #000000;
+}
+.main .showDog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.main .showDog .showDog-article {
+  width: 100%;
+  margin: 0.5rem;
+  border: 2px solid #AECEFB;
+}
+.main .showDog .showDog-article h3, .main .showDog .showDog-article p {
+  text-align: center;
+  margin: 0.2rem;
 }
 
 .footer {
