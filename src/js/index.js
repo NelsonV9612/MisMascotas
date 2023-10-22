@@ -1,4 +1,3 @@
-let perroPerdido=[];
 class Perro {
   constructor(color, lugar, tamanio, raza) {
     this.color = color;
@@ -54,9 +53,7 @@ const validateInput = (raza, color, tamanio, lugar) => {
 };
 //valida los inputs de busqueda
 const validateInputSearch=((input)=>{
-  if (input=="") {
-    alert('No puede haber valores vacíos')
-  }
+  input="" ? alert("No pueden haber valores vacios"): true;
 });
 
 const showDog=((dog)=>{
@@ -92,23 +89,32 @@ searchDogButton.addEventListener('click', () => {
   const submitButton = button('button','Buscar');
 
   const existingData = localStorage.getItem('perro');
-  const lost = existingData ? JSON.parse(existingData) : undefined;
-  console.log(perroPerdido);
+  const lost = existingData ? JSON.parse(existingData) : [];
+  
   form.addEventListener('submit', (e) =>{
     e.preventDefault();
     const raza= document.querySelector('.containerDog .input.raza').value;
     const color= document.querySelector('.containerDog .input.color').value;
     const tamanio= document.querySelector('.containerDog .input.tamaño').value;
     const lugar= document.querySelector('.containerDog .input.lugar').value;
-    let perroEncontrado = lost.find(perro =>
-      perro.color === color &&
-      perro.raza === raza &&
-      perro.lugar === lugar &&
-      perro.tamanio===tamanio &&
-      perro.estado==='Perdido'
-    );
+    validateInputSearch(raza,color,tamanio,lugar);
+    if(lost.length > 0){
+      let perroEncontrado = lost.find(perro =>
+        perro.color === color &&
+        perro.raza === raza &&
+        perro.lugar === lugar &&
+        perro.tamanio===tamanio &&
+        perro.estado==='Perdido'
+      )
+      if(perroEncontrado){
+        showDog(perroEncontrado);
+        console.log(perroEncontrado);
+      }
+      
+    }else{
+      alert('No hay ningún perro reportado');
+    }
     
-    console.log(typeof perroEncontrado);
     raza.value="";
     color.value="";
     tamanio.value="";
@@ -151,9 +157,9 @@ reportDogButton.addEventListener('click', () => {
       if (dog) {
         perroPerdido.push(dog);
         alert('Perro reportado con exito');
+        const perrosPerdidos=JSON.stringify(perroPerdido);
+        localStorage.setItem('perro',perrosPerdidos);
       }
-      const perrosPerdidos=JSON.stringify(perroPerdido);
-      localStorage.setItem('perro',perrosPerdidos);
       console.log(perroPerdido);
       raza.value="";
       color.value="";
@@ -165,9 +171,19 @@ reportDogButton.addEventListener('click', () => {
 });
 
 showDogButton.addEventListener('click',()=>{
-  searchDogContainer.innerHTML = "";
+  showDogContainer.innerHTML = "";
   const existingData = localStorage.getItem('perro');
-  const lost = existingData ? JSON.parse(existingData) : [];
-  const lostArticles = lost.map(dog => showDog(dog));  
-  showDogContainer.append(...lostArticles);
+  const lost = existingData ? JSON.parse(existingData) : undefined;
+  if(lost){
+    const lostArticles = lost.map(dog => showDog(dog));
+    showDogContainer.append(...lostArticles);
+  }else{
+    Swal.fire({
+      icon: 'warning',
+      title: 'Lo siento',
+      text: 'No hay ningún perro reportado',
+    });
+  }
+  console.log(lost);
+
 })

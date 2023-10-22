@@ -117,3 +117,10 @@ $colorPpal:#AECEFB;
     }
 
 }
+.swal2-icon{
+    color: $colorPpal !important;
+    border-color: $colorPpal !important;
+}
+.swal2-title{
+    text-decoration: underline;
+}

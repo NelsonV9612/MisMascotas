@@ -108,4 +108,13 @@ body {
   margin: 0;
 }
 
+.swal2-icon {
+  color: #AECEFB !important;
+  border-color: #AECEFB !important;
+}
+
+.swal2-title {
+  text-decoration: underline;
+}
+
 /*# sourceMappingURL=style.css.map */
