@@ -55,7 +55,12 @@ const validateInput = (raza, color, tamanio, lugar) => {
 const validateInputSearch=((input)=>{
   input="" ? alert("No pueden haber valores vacios"): true;
 });
-
+//me trae los datos del local storage en caso que lo haya
+const listDog=()=>{
+  const existingData = localStorage.getItem('perro');
+  const lostDog = existingData ? JSON.parse(existingData) : [];
+  return lostDog;
+}
 const showDog=((dog)=>{
   const infoDog=document.createElement('article');
   infoDog.classList='showDog-article'
@@ -78,6 +83,7 @@ const reportDogContainer = document.querySelector('.reportDog');
 //muestra
 const showDogButton = document.querySelector('#showButton');
 const showDogContainer=document.querySelector('.showDog')
+
 //evento para buscar un perro
 searchDogButton.addEventListener('click', () => {
   const inputList=['Raza', 'Color', 'Tamaño', 'Lugar'];
@@ -88,8 +94,7 @@ searchDogButton.addEventListener('click', () => {
   const inputs = inputList.map((type) => createInputElement(type, 'text'));
   const submitButton = button('button','Buscar');
 
-  const existingData = localStorage.getItem('perro');
-  const lost = existingData ? JSON.parse(existingData) : [];
+  const lostList = listDog();
   
   form.addEventListener('submit', (e) =>{
     e.preventDefault();
@@ -98,8 +103,8 @@ searchDogButton.addEventListener('click', () => {
     const tamanio= document.querySelector('.containerDog .input.tamaño').value;
     const lugar= document.querySelector('.containerDog .input.lugar').value;
     validateInputSearch(raza,color,tamanio,lugar);
-    if(lost.length > 0){
-      let perroEncontrado = lost.find(perro =>
+    if(lostList.length > 0){
+      let perroEncontrado = lostList.find(perro =>
         perro.color === color &&
         perro.raza === raza &&
         perro.lugar === lugar &&
@@ -107,12 +112,26 @@ searchDogButton.addEventListener('click', () => {
         perro.estado==='Perdido'
       )
       if(perroEncontrado){
-        showDog(perroEncontrado);
-        console.log(perroEncontrado);
+        Swal.fire({
+          icon: 'success',
+          title: 'Encontramos tu perro',
+        });
+        /* showDog(perroEncontrado);
+        console.log(perroEncontrado); */
+
+      }else{
+        Swal.fire({
+          icon: 'Warning',
+          title: 'Lo siento',
+          text: 'No hay ningún perro reportado con esas caracteristicas',
+        });
       }
-      
     }else{
-      alert('No hay ningún perro reportado');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Lo siento',
+        text: 'No hay ningún perro reportado',
+      });
     }
     
     raza.value="";
@@ -139,8 +158,7 @@ reportDogButton.addEventListener('click', () => {
   });
   const submitButton = button('button','Reportar');
   //verifico si hay algo en el local storage porque sino al recargar me sobreecribe.
-  const existingData = localStorage.getItem('perro');
-  const perroPerdido = existingData ? JSON.parse(existingData) : [];
+  const lostList= listDog();
 
   formulario.addEventListener('submit', (e) => {
     e.preventDefault();  
@@ -155,12 +173,12 @@ reportDogButton.addEventListener('click', () => {
       const dog = validateInput(razaValue, colorValue, tamanioValue, lugarValue);
       //Valido que sea un objeto y no un undefined
       if (dog) {
-        perroPerdido.push(dog);
+        lostList.push(dog);
         alert('Perro reportado con exito');
-        const perrosPerdidos=JSON.stringify(perroPerdido);
+        const perrosPerdidos=JSON.stringify(lostList);
         localStorage.setItem('perro',perrosPerdidos);
       }
-      console.log(perroPerdido);
+      console.log(lostList);
       raza.value="";
       color.value="";
       tamanio.value="";
@@ -173,9 +191,9 @@ reportDogButton.addEventListener('click', () => {
 showDogButton.addEventListener('click',()=>{
   showDogContainer.innerHTML = "";
   const existingData = localStorage.getItem('perro');
-  const lost = existingData ? JSON.parse(existingData) : undefined;
-  if(lost){
-    const lostArticles = lost.map(dog => showDog(dog));
+  const lostList = existingData ? JSON.parse(existingData) : undefined;
+  if(lostList){
+    const lostArticles = lostList.map(dog => showDog(dog));
     showDogContainer.append(...lostArticles);
   }else{
     Swal.fire({
@@ -184,6 +202,4 @@ showDogButton.addEventListener('click',()=>{
       text: 'No hay ningún perro reportado',
     });
   }
-  console.log(lost);
-
 })
